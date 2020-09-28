@@ -20,20 +20,22 @@ class App extends Component {
   };
 
   handleAdd = () => {
-    let url = SARWATS
+    let url = 'https://swapi-thinkful.herokuapp.com/api/'
     let name = this.state.name
 
     if (!this.state.name || !this.state.characters) {
       alert('There are no matches')
     } else {
-      fetch(`${url}${name}`)
+      fetch(`${url}people/?name=${name}`)
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           this.setState({
-            characters: data.items
+            characters: data.results
           })
         });
     };
+    console.log(this.state.characters);
   };
 
   render() {
@@ -42,10 +44,7 @@ class App extends Component {
         <header className="App-header">
           <img src={require("./images/vader.jpeg")} className="App-logo" alt="logo" />
           <Selector handleAdd={this.handleAdd} getName={this.getName} stateName={this.state.name}/>
-          <label htmlFor='search-bar'>
-            <form type="text" className='search-bar'></form>
-          </label>
-          <Results />
+          <Results characters={this.state.characters}/>
         </header>
       </div>
     );
